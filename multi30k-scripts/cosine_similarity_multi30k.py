@@ -1,0 +1,103 @@
+# CWDE615 8-24-24
+# Retrieves the translations of one of the Multi30k datasets and the dataset itself then performs similarity analysis
+# on the data.
+import argparse
+from datasets import load_dataset
+import numpy as np
+from sentence_transformers import SentenceTransformers
+import torch
+import torch.nn.functional as F
+
+def load_embedding_model():
+	# load DistiluseBERT from sentence-transformers
+	# see https://huggingface.co/sentence-transformers/distiluse-base-multilingual-cased-v2
+	return SentenceTransformer('sentence-transformers/distiluse-base-multilingual-cased-v2')
+
+
+def get_embeddings(embedder, sentence_list):
+	# retrieve embeddings from DistiluseBERT
+	# see https://huggingface.co/sentence-transformers/distiluse-base-multilingual-cased-v2
+	return embedder.encode(sentence_list)
+
+
+# TODO: Move operation to cuda.
+def get_cosine_similarity(src_embeddings, tgt_embeddings):
+	src_tensor = torch.from_numpy(src_embeddings)
+	tgt_tensor = torch.from_numpy(tgt_embeddings)
+
+	return torch.numpy(F.cosine_similarity(src_embeddings, tgt_embeddings))
+
+
+def write_cosine_similarity(filename, src_embeddings, tgt_embeddings):
+	dataset_similarity = get_cosine_similarity(src_embeddings, tgt_embeddings)
+
+	np.savetxt(filename, dataset_similarity, fmt='%s')
+
+
+if __name__ == "__main__":
+	# Usage cosine_similarity_multi30k.py --src en --target es
+	parser = argparse.ArgumentParser(
+	        prog = "MULTI30K TRANSLATION COSINE SIMILARITY CALCULATOR",
+	        description = "This script calculates the cosine similarities of image descriptions between emeddings the original Multi30k datasets and its translations into various languages"
+	)
+	parser.add_argument('-s','--src', choices=['en','fr','de','cs'], default='en', help="the source language for cosine similarity calculation")
+	parser.add_argument('-t','--target', choices=['es','ay','gn','qu','zh_hans','zh_hant','ar_arab','ar_latn','uk'], default='es', help="the source language for cosine similarity calculation")
+
+	args = parser.parse_args()
+
+	datasets = np.array(['test_2016_flickr', 'test_2017_flickr', 'test_2017_mscoco', 'test_2018_flickr', 'train', 'val'])
+
+	embedder = load_embedding_model()
+
+	uk_embeddings = dict()
+	ar_embeddings = dict()
+
+	for dataset in datasets:
+		SRC_FILE = f"multi30k-dataset-{args.src}/{dataset}.{args.src}"
+		src_txt = np.loadtxt(SRC_FILE)
+		src_embeddings = get_embeddings(embedder, src_txt)
+
+		TGT_FILE = f"multi30k-dataset-{args.src}-{args.target}/{dataset}.{args.target}"
+		tgt_txt = np.loadtxt(TGT_FILE)
+		tgt_embeddings = get_embeddings(embedder, tgt_txt)
+
+		if args.target == 'uk':
+			uk_embeddings[dataset] = tgt_embeddings
+		elif args.target == 'ar_arab':
+			ar_embeddings[dataset] = tgt_embeddings
+
+		FILE = f"multi30k-dataset-{args.src}-{args.target}/similarity_{dataset}_{args.src}_{args.target}.txt"
+		write_cosine_similarity(FILE, src_embeddings, tgt_embeddings)
+
+	if args.target == 'uk':
+		# for Ukrainian data we compare our results to Saichyshyna et al.
+		# see https://huggingface.co/datasets/turuta/Multi30k-uk
+		for dataset in datasets:
+			# the val split is not included in the data from Saichyshyna et al.
+			if dataset == 'val':
+				continue
+
+			# get array from ds. If the dataset is the train split, then use mutli30k for the split from Saichyshyna et al.
+			if dataset == 'train':
+				turuta_array = load_dataset("turuta/Multi30k-uk", 'multi30k')
+			else:
+				turuta_array = load_dataset("turuta/Multi30k-uk", dataset)
+
+			turuta_embeddings = get_embeddings(embedder, turuta_array)
+
+			FILE = f"multi30k-dataset-{args.src}-{args.target}/similarity_{dataset}_{args.src}_{args.target}_sai.txt"
+			write_cosine_similarity(FILE, uk_embeddings[dataset], turuta_embeddings)
+
+	elif args.target == 'ar_arab':
+		# for Arabic data we compare our results to the ArEnMulti30k datasets for train and val data.
+		# see https://zenodo.org/records/4394718 and https://sites.google.com/view/arenmulti30k
+		ar_subset = np.array(['train', 'val'])
+
+		for dataset in ar_subset:
+			AR_FILE = f"multi30k-dataset-ar/{dataset}/Arabic.txt"
+			aren_array = np.loadtxt(AR_FILE)
+
+			aren_embeddings = get_embeddings(embedder, enar_array)
+
+			FILE = f"multi30k-dataset-{args.src}-{args.target}/similarity_{dataset}_{args.src}_{args.target}_enar.txt"
+			write_cosine_similarity(FILE, ar_embeddings[dataset], aren_embeddings)
