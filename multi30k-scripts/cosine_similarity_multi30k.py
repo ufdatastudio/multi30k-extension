@@ -1,4 +1,4 @@
-# CWDE615 8-25-24
+# CWDE615 8-26-24
 # Retrieves the translations of one of the Multi30k datasets and the dataset itself then performs similarity analysis
 # on the data.
 import argparse
@@ -35,7 +35,7 @@ def write_cosine_similarity(filename, src_embeddings, tgt_embeddings):
 
 
 def loadtxt(filename):
-	return np.loadtxt(filename, dtype = 'U512', delimiter = '|')
+	return np.loadtxt(filename, dtype = 'U512', delimiter = None, comments = None)
 
 
 if __name__ == "__main__":
@@ -53,6 +53,7 @@ if __name__ == "__main__":
 
 	embedder = load_embedding_model()
 
+	src_embeddings_dict = dict()
 	uk_embeddings = dict()
 	ar_embeddings = dict()
 
@@ -66,13 +67,16 @@ if __name__ == "__main__":
 		tgt_embeddings = get_embeddings(embedder, tgt_txt)
 
 		if args.target == 'uk':
-			uk_embeddings[dataset] = tgt_embeddings
+			src_embeddings_dict[dataset] = src_embeddings
 			if args.src == 'en' and dataset == "train":
 				# for some reason, line 27633 of train.uk comes out blank for en src. Insert a blank into position 27633
 				tgt_txt = np.insert(tgt_txt, 27632, [''])
 				tgt_embeddings = get_embeddings(embedder, tgt_txt)
 
+			uk_embeddings[dataset] = tgt_embeddings
+
 		elif args.target == 'ar_arab':
+			src_embeddings_dict[dataset] = src_embeddings
 			ar_embeddings[dataset] = tgt_embeddings
 
 		FILE = f"multi30k-dataset-{args.src}-{args.target}/similarity_{dataset}_{args.src}_{args.target}.txt"
@@ -86,15 +90,20 @@ if __name__ == "__main__":
 			if dataset == 'val':
 				continue
 
-			# get array from ds. If the dataset is the train split, then use mutli30k for the split from Saichyshyna et al.
-			if dataset == 'train':
-				turuta_array = load_dataset("turuta/Multi30k-uk", 'multi30k')['train']['uk']
-			else:
-				turuta_array = load_dataset("turuta/Multi30k-uk", dataset)['train']['uk']
+			# a dict matching the split names from multi30k files to splits defined in Saichyshyna et al.
+			# The latter does not use val, so it doesn't appear here
+			corr_dict = {'test_2016_flickr':'flickr_2016', 'test_2017_flickr':'flickr_2017', 'test_2018_flickr':'flickr_2018', 'test_2017_mscoco':'mscoco_2017', 'train':'multi30k'}
+
+			# get array from ds. Use the corr_dict to match the corect split name with the dataset at hand.
+			turuta_list = load_dataset("turuta/Multi30k-uk", corr_dict[dataset])['train']['uk']
+			turuta_array = np.array(turuta_list)
 
 			turuta_embeddings = get_embeddings(embedder, turuta_array)
 
-			FILE = f"multi30k-dataset-{args.src}-{args.target}/similarity_{dataset}_{args.src}_{args.target}_sai.txt"
+			FILE = f"multi30k-dataset-{args.src}-{args.target}/similarity_{dataset}_{args.src}_sai.txt"
+			write_cosine_similarity(FILE, src_embeddings_dict[dataset], turuta_embeddings)
+
+			FILE = f"multi30k-dataset-{args.src}-{args.target}/similarity_{dataset}_{args.target}_sai.txt"
 			write_cosine_similarity(FILE, uk_embeddings[dataset], turuta_embeddings)
 
 	elif args.target == 'ar_arab':
@@ -108,5 +117,8 @@ if __name__ == "__main__":
 
 			aren_embeddings = get_embeddings(embedder, aren_array)
 
-			FILE = f"multi30k-dataset-{args.src}-{args.target}/similarity_{dataset}_{args.src}_{args.target}_enar.txt"
+			FILE = f"multi30k-dataset-{args.src}-{args.target}/similarity_{dataset}_{args.src}_enar.txt"
+			write_cosine_similarity(FILE, src_embeddings_dict[dataset], aren_embeddings)
+
+			FILE = f"multi30k-dataset-{args.src}-{args.target}/similarity_{dataset}_{args.target}_enar.txt"
 			write_cosine_similarity(FILE, ar_embeddings[dataset], aren_embeddings)

@@ -5,7 +5,7 @@ import argparse
 import numpy as np
 import transformers
 
-def call_nllb(src_iso = "en", tgt_iso = "es", src_file = "multi30k-dataset-en/test_2018_flickr.en"):
+def call_nllb(src_iso = "en", tgt_iso = "es", src_file = "../multi30k-dataset-en/test_2018_flickr.en"):
 	# Load model directly, using the HF transformers pipeline
 	# Use a pipeline as a high-level helper
 	MODEL = "facebook/nllb-200-3.3B"
@@ -16,7 +16,7 @@ def call_nllb(src_iso = "en", tgt_iso = "es", src_file = "multi30k-dataset-en/te
 	nllb_src_iso = nllb_isos[src_iso]
 	nllb_tgt_iso = nllb_isos[tgt_iso]
 
-	src_txts = np.loadtxt(src_file, dtype="U512", delimiter="|") # this delimiter is arbitrary, but without one defined, the delimiter is taken to be any whitespace.
+	src_txts = np.loadtxt(src_file, dtype="U512", delimiter="|", comments = None) # this delimiter is arbitrary, but without one defined, the delimiter is taken to be any whitespace.
 
 	pipe = transformers.pipeline(f"translation", src_lang = nllb_src_iso, tgt_lang = nllb_tgt_iso, model = MODEL, device=DEVICE, max_length = 512)
 
@@ -42,7 +42,7 @@ if __name__ == "__main__":
 	parser.add_argument('-d','--dataset', default="test_2018_flickr", help="the multi30k dataset to translate")
 	args = parser.parse_args()
 
-	SRC_FILE = f"multi30k-dataset-{args.src}/{args.dataset}.{args.src}"
+	SRC_FILE = f"../multi30k-dataset-{args.src}/{args.dataset}.{args.src}"
 	FILE = f"multi30k-dataset-{args.src}-{args.target}/{args.dataset}.{args.target}"
 
 	translations = call_nllb(args.src, args.target, SRC_FILE)
