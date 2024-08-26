@@ -20,7 +20,7 @@ def get_embeddings(embedder, sentence_list):
 	return embedder.encode(sentence_list)
 
 
-# TODO: Move operation to cuda.
+# TODO: Change to a call to similarity method of SentenceTransformer
 def get_cosine_similarity(src_embeddings, tgt_embeddings):
 	src_tensor = torch.from_numpy(src_embeddings)
 	tgt_tensor = torch.from_numpy(tgt_embeddings)
@@ -32,6 +32,10 @@ def write_cosine_similarity(filename, src_embeddings, tgt_embeddings):
 	dataset_similarity = get_cosine_similarity(src_embeddings, tgt_embeddings)
 
 	np.savetxt(filename, dataset_similarity, fmt='%s')
+
+
+def loadtxt(filename):
+	return np.loadtxt(filename, dtype = 'U512', delimiter = '|')
 
 
 if __name__ == "__main__":
@@ -53,12 +57,12 @@ if __name__ == "__main__":
 	ar_embeddings = dict()
 
 	for dataset in datasets:
-		SRC_FILE = f"multi30k-dataset-{args.src}/{dataset}.{args.src}"
-		src_txt = np.loadtxt(SRC_FILE)
+		SRC_FILE = f"../multi30k-dataset-{args.src}/{dataset}.{args.src}"
+		src_txt = loadtxt(SRC_FILE)
 		src_embeddings = get_embeddings(embedder, src_txt)
 
 		TGT_FILE = f"multi30k-dataset-{args.src}-{args.target}/{dataset}.{args.target}"
-		tgt_txt = np.loadtxt(TGT_FILE)
+		tgt_txt = loadtxt(TGT_FILE)
 		tgt_embeddings = get_embeddings(embedder, tgt_txt)
 
 		if args.target == 'uk':
@@ -79,9 +83,9 @@ if __name__ == "__main__":
 
 			# get array from ds. If the dataset is the train split, then use mutli30k for the split from Saichyshyna et al.
 			if dataset == 'train':
-				turuta_array = load_dataset("turuta/Multi30k-uk", 'multi30k')
+				turuta_array = load_dataset("turuta/Multi30k-uk", 'multi30k')['train']['uk']
 			else:
-				turuta_array = load_dataset("turuta/Multi30k-uk", dataset)
+				turuta_array = load_dataset("turuta/Multi30k-uk", dataset)['train']['uk']
 
 			turuta_embeddings = get_embeddings(embedder, turuta_array)
 
@@ -94,8 +98,8 @@ if __name__ == "__main__":
 		ar_subset = np.array(['train', 'val'])
 
 		for dataset in ar_subset:
-			AR_FILE = f"multi30k-dataset-ar/{dataset}/Arabic.txt"
-			aren_array = np.loadtxt(AR_FILE)
+			AR_FILE = f"../multi30k-dataset-ar/{dataset}/Arabic.txt"
+			aren_array = loadtxt(AR_FILE)
 
 			aren_embeddings = get_embeddings(embedder, enar_array)
 
