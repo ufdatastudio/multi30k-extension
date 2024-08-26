@@ -1,10 +1,10 @@
-# CWDE615 8-24-24
+# CWDE615 8-25-24
 # Retrieves the translations of one of the Multi30k datasets and the dataset itself then performs similarity analysis
 # on the data.
 import argparse
 from datasets import load_dataset
 import numpy as np
-from sentence_transformers import SentenceTransformers
+from sentence_transformers import SentenceTransformer
 import torch
 import torch.nn.functional as F
 
@@ -25,7 +25,7 @@ def get_cosine_similarity(src_embeddings, tgt_embeddings):
 	src_tensor = torch.from_numpy(src_embeddings)
 	tgt_tensor = torch.from_numpy(tgt_embeddings)
 
-	return torch.numpy(F.cosine_similarity(src_embeddings, tgt_embeddings))
+	return F.cosine_similarity(src_tensor, tgt_tensor).numpy()
 
 
 def write_cosine_similarity(filename, src_embeddings, tgt_embeddings):
@@ -67,6 +67,11 @@ if __name__ == "__main__":
 
 		if args.target == 'uk':
 			uk_embeddings[dataset] = tgt_embeddings
+			if args.src == 'en' and dataset == "train":
+				# for some reason, line 27633 of train.uk comes out blank for en src. Insert a blank into position 27633
+				tgt_txt = np.insert(tgt_txt, 27632, [''])
+				tgt_embeddings = get_embeddings(embedder, tgt_txt)
+
 		elif args.target == 'ar_arab':
 			ar_embeddings[dataset] = tgt_embeddings
 
@@ -101,7 +106,7 @@ if __name__ == "__main__":
 			AR_FILE = f"../multi30k-dataset-ar/{dataset}/Arabic.txt"
 			aren_array = loadtxt(AR_FILE)
 
-			aren_embeddings = get_embeddings(embedder, enar_array)
+			aren_embeddings = get_embeddings(embedder, aren_array)
 
 			FILE = f"multi30k-dataset-{args.src}-{args.target}/similarity_{dataset}_{args.src}_{args.target}_enar.txt"
 			write_cosine_similarity(FILE, ar_embeddings[dataset], aren_embeddings)

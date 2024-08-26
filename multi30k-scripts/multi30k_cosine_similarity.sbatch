@@ -19,7 +19,7 @@ echo "Directory = $(pwd)"
 
 module load mamba openssl
 
-mamba activate multi30k-env
+mamba activate test-blank-env
 
 echo "Cosine Similarity Calculation for Multi30k Translation"
 echo "Source Lang = $(echo $src)"
