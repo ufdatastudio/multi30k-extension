@@ -68,11 +68,6 @@ if __name__ == "__main__":
 
 		if args.target == 'uk':
 			src_embeddings_dict[dataset] = src_embeddings
-			if args.src == 'en' and dataset == "train":
-				# for some reason, line 27633 of train.uk comes out blank for en src. Insert a blank into position 27633
-				tgt_txt = np.insert(tgt_txt, 27632, [''])
-				tgt_embeddings = get_embeddings(embedder, tgt_txt)
-
 			uk_embeddings[dataset] = tgt_embeddings
 
 		elif args.target == 'ar_arab':
