@@ -35,7 +35,7 @@ def write_cosine_similarity(filename, src_embeddings, tgt_embeddings):
 
 
 def loadtxt(filename):
-	return np.loadtxt(filename, dtype = 'U512', delimiter = None, comments = None)
+	return np.loadtxt(filename, dtype = 'U512', delimiter = '|', comments = None)
 
 
 if __name__ == "__main__":
