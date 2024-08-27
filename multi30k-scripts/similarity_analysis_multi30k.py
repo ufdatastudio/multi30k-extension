@@ -1,6 +1,7 @@
 # CWDE615 8-25-24
 # Read cosine similarity from file for a language pair. Similarities must be calculated previous to the analysis.
 import argparse
+import copy
 # import matplotlib.pyplot as plt # TODO: Uncomment this and set up matplotlib to make tables and histograms automatically.
 import numpy as np
 
@@ -9,16 +10,20 @@ def loadtxt(filename):
 
 def get_mean_cosine_similarity(src_lang, tgt_lang, datasets):
 	sums = []
+	means = []
 	num = 0
 
 	for dataset in datasets:
 		IN_FILE = f"multi30k-dataset-{src_lang}-{tgt_lang}/similarity_{dataset}_{src_lang}_{tgt_lang}.txt"
 		sims = loadtxt(IN_FILE)
 		sums.append(sims.sum())
+		means.append(sims.mean())
 		num += sims.shape[0]
 
-	return  np.array(sums).sum() / num # make the list a 2D matrix and compute mean of the flattened array (default behavior)
+	OUT_FILE = f"tables/cosine_similarity_table_{src_lang}_{tgt_lang}.txt"
+	np.savetxt(OUT_FILE, list(zip(datasets, means)), fmt='%s')
 
+	return np.array(sums).sum() / num
 
 def cosine_similarity_table(src_langs, tgt_langs, datasets):
 	pair_means = dict()
@@ -27,7 +32,7 @@ def cosine_similarity_table(src_langs, tgt_langs, datasets):
 		for tgt_lang in tgt_langs:
 			pair_means[f'{src_lang}-{tgt_lang}'] = get_mean_cosine_similarity(src_lang, tgt_lang, datasets)
 
-	OUT_FILE = f'tables/cosine_similarity_table.txt'
+	OUT_FILE = f'tables/cosine_similarity_table_overall.txt'
 	results = np.empty(shape = (len(src_langs) * len(tgt_langs), 2), dtype = 'U20')
 	results[:, 0] = list(pair_means.keys())
 	results[:, 1] = list(pair_means.values())
@@ -41,6 +46,9 @@ def get_cosine_similarity_histogram(src_lang, tgt_lang, datasets, bins = 10):
 		IN_FILE = f"multi30k-dataset-{src_lang}-{tgt_lang}/similarity_{dataset}_{src_lang}_{tgt_lang}.txt"
 		sims = loadtxt(IN_FILE)
 		histogram += np.histogram(sims, range=(0,1), bins = bins)[0]
+
+		OUT_FILE = f"multi30k-dataset-{src_lang}-{tgt_lang}/histogram_{dataset}_{src_lang}_{tgt_lang}.txt"
+		np.savetxt(OUT_FILE, histogram, fmt='%s')
 
 	OUT_FILE = f"multi30k-dataset-{src_lang}-{tgt_lang}/histogram_{src_lang}_{tgt_lang}.txt"
 	np.savetxt(OUT_FILE, histogram, fmt='%s')
