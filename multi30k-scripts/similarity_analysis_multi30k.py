@@ -13,8 +13,15 @@ def get_mean_cosine_similarity(src_lang, tgt_lang, datasets):
 	means = []
 	num = 0
 
+	tgt_lang_dir = tgt_lang
+
+	if tgt_lang == 'enar':
+		tgt_lang_dir = 'ar_arab'
+	elif tgt_lang == 'sai':
+		tgt_lang_dir = 'uk'
+
 	for dataset in datasets:
-		IN_FILE = f"multi30k-dataset-{src_lang}-{tgt_lang}/similarity_{dataset}_{src_lang}_{tgt_lang}.txt"
+		IN_FILE = f"multi30k-dataset-{src_lang}-{tgt_lang_dir}/similarity_{dataset}_{src_lang}_{tgt_lang}.txt"
 		sims = loadtxt(IN_FILE)
 		sums.append(sims.sum())
 		means.append(sims.mean())
@@ -42,15 +49,22 @@ def cosine_similarity_table(src_langs, tgt_langs, datasets):
 def get_cosine_similarity_histogram(src_lang, tgt_lang, datasets, bins = 10):
 	histogram = np.zeros(shape = (bins,), dtype = 'int')
 
+	tgt_lang_dir = tgt_lang
+
+	if tgt_lang == 'enar':
+		tgt_lang_dir = 'ar_arab'
+	elif tgt_lang == 'sai':
+		tgt_lang_dir = 'uk'
+
 	for dataset in datasets:
-		IN_FILE = f"multi30k-dataset-{src_lang}-{tgt_lang}/similarity_{dataset}_{src_lang}_{tgt_lang}.txt"
+		IN_FILE = f"multi30k-dataset-{src_lang}-{tgt_lang_dir}/similarity_{dataset}_{src_lang}_{tgt_lang}.txt"
 		sims = loadtxt(IN_FILE)
 		histogram += np.histogram(sims, range=(0,1), bins = bins)[0]
 
-		OUT_FILE = f"multi30k-dataset-{src_lang}-{tgt_lang}/histogram_{dataset}_{src_lang}_{tgt_lang}.txt"
+		OUT_FILE = f"multi30k-dataset-{src_lang}-{tgt_lang_dir}/histogram_{dataset}_{src_lang}_{tgt_lang}.txt"
 		np.savetxt(OUT_FILE, histogram, fmt='%s')
 
-	OUT_FILE = f"multi30k-dataset-{src_lang}-{tgt_lang}/histogram_{src_lang}_{tgt_lang}.txt"
+	OUT_FILE = f"multi30k-dataset-{src_lang}-{tgt_lang_dir}/histogram_{src_lang}_{tgt_lang}.txt"
 	np.savetxt(OUT_FILE, histogram, fmt='%s')
 
 

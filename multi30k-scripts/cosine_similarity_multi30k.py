@@ -25,7 +25,7 @@ def get_cosine_similarity(src_embeddings, tgt_embeddings):
 	src_tensor = torch.from_numpy(src_embeddings)
 	tgt_tensor = torch.from_numpy(tgt_embeddings)
 
-	return F.cosine_similarity(src_tensor, tgt_tensor).numpy()
+	return np.abs(F.cosine_similarity(src_tensor, tgt_tensor).numpy())
 
 
 def write_cosine_similarity(filename, src_embeddings, tgt_embeddings):
