@@ -1,0 +1,6 @@
+test_2016_flickr BLEU = 37.10 66.2/44.3/30.7/21.1 (BP = 1.000 ratio = 1.016 hyp_len = 10464 ref_len = 10295)
+test_2017_flickr BLEU = 34.05 63.2/40.6/27.6/19.0 (BP = 1.000 ratio = 1.004 hyp_len = 9178 ref_len = 9142)
+test_2018_flickr BLEU = 34.14 64.1/41.5/28.1/18.9 (BP = 0.990 ratio = 0.990 hyp_len = 11634 ref_len = 11756)
+test_2017_mscoco BLEU = 33.14 63.3/40.0/26.6/17.9 (BP = 1.000 ratio = 1.030 hyp_len = 4291 ref_len = 4165)
+train BLEU = 35.77 65.1/42.5/29.2/20.3 (BP = 1.000 ratio = 1.010 hyp_len = 302909 ref_len = 299933)
+nrefs:1|case:mixed|eff:no|tok:13a|smooth:exp|version:2.4.3

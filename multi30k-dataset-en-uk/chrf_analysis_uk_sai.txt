@@ -1,0 +1,6 @@
+test_2016_flickr chrF2 = 65.36
+test_2017_flickr chrF2 = 62.36
+test_2018_flickr chrF2 = 62.81
+test_2017_mscoco chrF2 = 63.31
+train chrF2 = 63.59
+nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.4.3
