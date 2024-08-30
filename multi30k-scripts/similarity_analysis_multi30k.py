@@ -8,20 +8,30 @@ import numpy as np
 def loadtxt(filename):
 	return np.loadtxt(filename, dtype = 'd', delimiter = "|", comments = None)
 
-def get_mean_cosine_similarity(src_lang, tgt_lang, datasets):
-	sums = []
-	means = []
-	num = 0
-
+def get_lang_dirs(src_lang, tgt_lang, src_sub = 'en'):
+	src_lang_dir = src_lang
 	tgt_lang_dir = tgt_lang
+
+	if src_lang not in ['en','fr','de','cs']:
+		src_lang_dir = src_sub
 
 	if tgt_lang == 'enar':
 		tgt_lang_dir = 'ar_arab'
 	elif tgt_lang == 'sai':
 		tgt_lang_dir = 'uk'
 
+	return src_lang_dir, tgt_lang_dir
+
+
+def get_mean_cosine_similarity(src_lang, tgt_lang, datasets):
+	sums = []
+	means = []
+	num = 0
+
+	src_lang_dir, tgt_lang_dir = get_lang_dirs(src_lang, tgt_lang)
+
 	for dataset in datasets:
-		IN_FILE = f"multi30k-dataset-{src_lang}-{tgt_lang_dir}/similarity_{dataset}_{src_lang}_{tgt_lang}.txt"
+		IN_FILE = f"multi30k-dataset-{src_lang_dir}-{tgt_lang_dir}/similarity_{dataset}_{src_lang}_{tgt_lang}.txt"
 		sims = loadtxt(IN_FILE)
 		sums.append(sims.sum())
 		means.append(sims.mean())
@@ -49,22 +59,17 @@ def cosine_similarity_table(src_langs, tgt_langs, datasets):
 def get_cosine_similarity_histogram(src_lang, tgt_lang, datasets, bins = 10):
 	histogram = np.zeros(shape = (bins,), dtype = 'int')
 
-	tgt_lang_dir = tgt_lang
-
-	if tgt_lang == 'enar':
-		tgt_lang_dir = 'ar_arab'
-	elif tgt_lang == 'sai':
-		tgt_lang_dir = 'uk'
+	src_lang_dir, tgt_lang_dir = get_lang_dirs(src_lang, tgt_lang)
 
 	for dataset in datasets:
-		IN_FILE = f"multi30k-dataset-{src_lang}-{tgt_lang_dir}/similarity_{dataset}_{src_lang}_{tgt_lang}.txt"
+		IN_FILE = f"multi30k-dataset-{src_lang_dir}-{tgt_lang_dir}/similarity_{dataset}_{src_lang}_{tgt_lang}.txt"
 		sims = loadtxt(IN_FILE)
 		histogram += np.histogram(sims, range=(0,1), bins = bins)[0]
 
-		OUT_FILE = f"multi30k-dataset-{src_lang}-{tgt_lang_dir}/histogram_{dataset}_{src_lang}_{tgt_lang}.txt"
+		OUT_FILE = f"multi30k-dataset-{src_lang_dir}-{tgt_lang_dir}/histogram_{dataset}_{src_lang}_{tgt_lang}.txt"
 		np.savetxt(OUT_FILE, histogram, fmt='%s')
 
-	OUT_FILE = f"multi30k-dataset-{src_lang}-{tgt_lang_dir}/histogram_{src_lang}_{tgt_lang}.txt"
+	OUT_FILE = f"multi30k-dataset-{src_lang_dir}-{tgt_lang_dir}/histogram_{src_lang}_{tgt_lang}.txt"
 	np.savetxt(OUT_FILE, histogram, fmt='%s')
 
 
