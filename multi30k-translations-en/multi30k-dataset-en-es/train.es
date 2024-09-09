@@ -4454,7 +4454,7 @@ Una hembra está abriendo un regalo.
 Un hombre tratando de mantenerse en el bronco.
 Dos perros se enfrentan en un campo cubierto de hierba.
 El perro marrón ve a un perro negro tendido en la hierba seca.
-Un jugador de béisbol de la liga pequeña, con un vestido blanco.
+Un jugador de béisbol de ligas menores, con una camiseta blanca # 19, golpea con éxito la pelota.
 Una mujer está mirando un folleto hablando con alguien, mientras un tipo toma fotos en el fondo.
 Una mujer está probando calzoncillos de punto.
 Dos chicas preparando su casa para una gran fiesta.
@@ -11427,7 +11427,7 @@ Una niña con una chaqueta rosa está en el centro del cuadro.
 Un hombre entrevista a un niño en una reunión de personas.
 Un hombre está envuelto en llamas mientras dos miembros del equipo de filmación supervisan.
 Un hombre tocando la guitarra y otro tocando la batería
-Perro gris con hocico y con el ...
+Perro gris con bozal y con el número 8 de identificación de rayas amarillas está corriendo.
 Una mujer de cabello oscuro trabajando en una tela de colores.
 Un perro negro con un collar morado y una correa negra corre por la hierba.
 Un hermoso paisaje de montaña y un remonte de esquí.
@@ -11549,7 +11549,7 @@ Un esquiador solitario baja una colina vacía bajo un cielo azul.
 Padre blanco y sol en trajes azules con tabla de boogie en el agua.
 La gente está de pie en una plataforma de tren leyendo periódicos.
 Gente en un gimnasio bailando en un concurso.
-El perro de carreras tiene un hocico y lleva una camiseta a rayas .
+El perro de carreras tiene un hocico y lleva la camiseta rayada #8.
 Un anciano con una camisa roja sentado en un banco verde.
 Tres hombres se paran juntos con dos pares de escamas junto a grandes montones de verduras frescas.
 Una grúa blanca está volando sobre el agua.
@@ -15047,7 +15047,7 @@ Una toma media de una multitud protestando para traer a las tropas a casa.
 Una mujer en gran forma está saltando con un poste sobre un bar.
 Dos hombres cocinan juntos con un tazón de metal, cerca de una planta colgante.
 Un hombre acostado en la hierba junto a un pequeño lago.
-Los perros galgos corren en la pista, con 
+Los perros galgos corren en la pista, con el #8 en la cabeza.
 El hombre sube en bicicleta por la pared de ladrillos.
 Un grupo de chicos jóvenes de equipos rivales están jugando al fútbol.
 Dos muchachos en trajes de baño caminan
@@ -22441,7 +22441,7 @@ Un hombre está sentado en una silla y tocando la guitarra.
 Una mujer que ajusta algo en una bicicleta colgada de una cerca.
 Un hombre con sombrero rojo, chaqueta roja y gafas de sol rojas está escuchando su reproductor de música.
 Santa está en la fila de bailarines para el desfile.
-Un tipo con un azul .
+Un tipo con una camiseta azul #5 está golpeando una pelota de softball amarilla en un campo cubierto de hierba a algunos jardineros.
 Un gato marrón está sentado en la parte superior de un coche viejo.
 Hombres y mujeres sentados en las escaleras por la noche con muchos pilares a su alrededor.
 Un gato blanco se sienta en una pared.
@@ -23610,7 +23610,7 @@ Un perro blanco y esponjoso corriendo por la tierra.
 Un hombre con un sombrero azul y un uniforme azul que está trabajando en algún equipo.
 Una mujer sostiene un pedazo de encaje mientras detrás de sus hombres en ponchos tocan música.
 Dos hombres están hablando también una mujer afuera, hay árboles a su alrededor y un edificio en el fondo.
-Un niño que llevaba ...
+Un niño joven que lleva el uniforme #24 está gritando durante un partido de fútbol.
 Un hombre, vestido de policía, con un micrófono en la mano y los ojos cerrados.
 Dennis Hopper parece estar hablando con Cristy Ally.
 Un hombre con gafas mirando hacia abajo a algo en sus manos.
@@ -25783,7 +25783,7 @@ Un grupo de chicas con uniformes azules y blancos están en círculo y levantand
 El veterano rocker está haciendo un homenaje bajo el sol mortal.
 Un joven sostiene un martillo sobre un joven asustado mientras otro observa.
 Dos jugadores de fútbol, uno vestido de rojo y otro de azul, jugando fútbol entre sí.
-Parece que el jugador de borgoña acaba de patear la pelota de fútbol .
+Parece que el jugador de borgoña acaba de patear la pelota de fútbol en la cabeza del número 5.
 Un corredor es atrapado corriendo en medio de una carrera.
 Un niño con comida en la cara en una silla alta.
 En el lugar lleno al aire libre, un cantante hace un gesto a los fans.
@@ -27631,7 +27631,7 @@ Vista de perfil de un hombre con una pipa marrón en la boca.
 Un niño sonriente montado en una pala.
 Una niña ha sumergido su cabeza en un tazón de agua.
 El lanzador está lanzando la pelota en un juego de béisbol.
-El ...
+El jugador de béisbol #5 del equipo verde intenta hacer la captura mientras el jugador del equipo gris #7 cruza la base, con el árbitro mirando para hacer la llamada.
 Un hombre juega con un bebé, sosteniéndolo en el aire.
 Dos chicas y un chico están involucrados en un concurso de comer pasteles.
 Un hombre de pelo corto está saltando mientras está en la cima de una roca enorme.
@@ -27648,7 +27648,7 @@ Tres hombres con cascos conducen una gran maquinaria.
 Una pareja joven se sienta en una parte comiendo helado mientras los niños juegan y otras personas se divierten a su alrededor.
 La gente disfruta relajarse y leer en este lugar verde y sombreado.
 Un joven en una tabla de surf monta una ola dura.
-Jugador de béisbol .
+El jugador de béisbol # 38, Morse, se ve de pie y mirando al lanzador.
 Un hombre con una camisa amarilla llena algunos barriles con una pequeña cuchara.
 Dos chicas mirando por la ventana en "El pelo de Hart".
 Bruce Springsteen, vestido de negro, tiene un micrófono y señala a una multitud.

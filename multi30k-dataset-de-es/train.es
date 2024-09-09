@@ -10955,6 +10955,7 @@ Un joven muestra su entusiasmo en una fiesta nocturna al aire libre.
 Dos adultos y un niño pequeño posan frente a un apartamento.
 Un hombre mayor está sentado en el techo y sostiene un martillo.
 Un hombre con una camisa verde está arreglando una cadena de bicicletas.
+Un niño blanco con pantalones cortos azules bate una pelota de tenis con una raqueta.
 Un hombre disfrazado de Santa Claus está sentado en una silla y toca el banjo.
 El joven lleva una gorra negra y un manto y agarra su gorra.
 Una mujer hace tortillas frescas.
@@ -11245,6 +11246,7 @@ Un padre y su hijo pequeño se divierten en la piscina.
 Un perro blanco y negro lleva un gran palo sobre el césped verde.
 Un perro salta en el aire y agarra un disco de frisbee.
 Una joven trabaja detrás de la mesa de un bar de jugos.
+Un hombre vende globos de moda en la calle.
 Una persona salta con sus esquís sobre la nieve.
 Una persona está jugando a los bolos en una pista de boliche de colores.
 Un hombre anda en bicicleta por una calle, seguido de cerca por un perro pastor y posiblemente un labrador negro, mientras dos hombres más jóvenes corren hacia él por el bordillo.
@@ -22439,7 +22441,7 @@ Un hombre está sentado en una silla y toca la guitarra.
 Una mujer ajusta un poco más finamente una bicicleta que cuelga de una cerca.
 Un hombre con un sombrero rojo, una chaqueta roja y gafas de sol rojas escucha música en su reproductor de música.
 Santa está en la fila de los bailarines para el desfile.
-Un hombre con un azul .
+Un hombre con un jersey azul #5, bate una pelota de softball amarilla a algunos jugadores de campo en un prado.
 Un gato marrón está sentado en la parte superior de un coche viejo.
 Un hombre y una mujer se sientan en las escaleras por la noche, con muchas columnas alrededor.
 Hay un gato blanco sentado en una pared.
@@ -23608,7 +23610,7 @@ Un perro peludo y blanco anda por el barro.
 Un hombre que trabaja con aparatos, lleva un sombrero azul y un uniforme azul.
 Una mujer sostiene un pedacito de una punta en el aire, mientras que detrás de ella, hombres en ponchos tocan música.
 Dos hombres están hablando con una mujer afuera, con árboles a su alrededor y un edificio en el fondo.
-Un chico que se llamaba
+Un niño que lleva el uniforme número 24 grita durante un partido de fútbol.
 Un hombre disfrazado de policía, tiene un micrófono en la mano y tiene los ojos cerrados.
 Parece que Dennis Hopper está hablando con Cristy Ally.
 Un hombre con gafas mira algo en sus manos.
