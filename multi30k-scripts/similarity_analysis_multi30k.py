@@ -31,6 +31,9 @@ def get_mean_cosine_similarity(src_lang, tgt_lang, datasets):
 	src_lang_dir, tgt_lang_dir = get_lang_dirs(src_lang, tgt_lang)
 
 	for dataset in datasets:
+		if src_lang == 'cs' and dataset in ['test_2017_flickr', 'test_2017_mscoco']:
+			continue
+
 		IN_FILE = f"multi30k-dataset-{src_lang_dir}-{tgt_lang_dir}/similarity_{dataset}_{src_lang}_{tgt_lang}.txt"
 		sims = loadtxt(IN_FILE)
 		sums.append(sims.sum())
@@ -62,6 +65,9 @@ def get_cosine_similarity_histogram(src_lang, tgt_lang, datasets, bins = 10):
 	src_lang_dir, tgt_lang_dir = get_lang_dirs(src_lang, tgt_lang)
 
 	for dataset in datasets:
+		if src_lang == 'cs' and dataset in ['test_2017_flickr', 'test_2017_mscoco']:
+			continue
+
 		IN_FILE = f"multi30k-dataset-{src_lang_dir}-{tgt_lang_dir}/similarity_{dataset}_{src_lang}_{tgt_lang}.txt"
 		sims = loadtxt(IN_FILE)
 		histogram += np.histogram(sims, range=(0,1), bins = bins)[0]
@@ -86,7 +92,7 @@ if __name__ == "__main__":
 		description = "This script analyzes the cosine similarities written to various files by cosine_similarity_multi30k.py. If the similarity or similarities to be analyzed does/do not exist, it will throw an error."
 	)
 	parser.add_argument('-s','--srcs', default='cs,de,en,fr', help="comma separated list of ISO 639-1 codes of source languages for cosine similarity analysis. These will be analyzed pairwise with the target languages (tgts).")
-	parser.add_argument('-t','--tgts', default='es,ay,gn,qu,zh_hans,zh_hant,ar_arab,ar_latn,uk', help = "comma separated list of ISO 639-1 codes of target languages for cosine similarity analysis. These will be analyzed pairwise with the source languages (srcs).")
+	parser.add_argument('-t','--tgts', default='es,ay,gn,qu,zh_hans,zh_hant,ar_arab,uk', help = "comma separated list of ISO 639-1 codes of target languages for cosine similarity analysis. These will be analyzed pairwise with the source languages (srcs).")
 	parser.add_argument('-d','--datasets',default='all', help = 'comma separated list of dataset(s) to analyze. Type all as a shortcut to analyze all datasets.')
 	parser.add_argument('-a','--analysis',default='all', choices=['mean','hist','all'], help='conduct the mean cosine similarity analysis (mean), a histogram analysis (hist), or all analyzes (all).')
 

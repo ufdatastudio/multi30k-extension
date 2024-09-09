@@ -51,6 +51,9 @@ if __name__ == "__main__":
 
 	datasets = np.array(['test_2016_flickr', 'test_2017_flickr', 'test_2017_mscoco', 'test_2018_flickr', 'train', 'val'])
 
+	if args.src == 'cs':
+		datasets = np.array(['test_2016_flickr', 'test_2018_flickr', 'train', 'val'])
+
 	embedder = load_embedding_model()
 
 	src_embeddings_dict = dict()
