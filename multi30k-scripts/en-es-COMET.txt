@@ -1,0 +1,1 @@
+[{'dataset': 'test_2016_flickr', 'score': 0.772118724822998}, {'dataset': 'test_2017_flickr', 'score': 0.7811184362471104}, {'dataset': 'test_2017_mscoco', 'score': 0.7446188760553678}, {'dataset': 'test_2018_flickr', 'score': 0.759271513841121}, {'dataset': 'train', 'score': 0.7665541061353067}, {'dataset': 'val', 'score': 0.7590601194642587}]
