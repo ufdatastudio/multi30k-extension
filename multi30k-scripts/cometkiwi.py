@@ -80,6 +80,6 @@ if __name__ == "__main__":
 		for tgt_lang in tgt_langs:
 			for dataset in datasets:
 				src_list, tgt_list = load_src_tgt_lists(src_lang, tgt_lang)
-				comet_scores.append({"dataset": dataset, "score": run_comet_kiwi(model, src_list, tgt_list)['system_score']})
+				comet_scores.append({"src": src_lang, "tgt": tgt_lang, "dataset": dataset, "score": run_comet_kiwi(model, src_list, tgt_list)['system_score']})
 
 	print(comet_scores)
