@@ -34,6 +34,9 @@ def write_cosine_similarity(filename, src_embeddings, tgt_embeddings):
 	np.savetxt(filename, dataset_similarity, fmt='%s')
 
 
+def write_embeddings(filename, embeddings):
+	np.savetxt(filename, embeddings, fmt="%s")
+
 def loadtxt(filename):
 	return np.loadtxt(filename, dtype = 'U512', delimiter = '|', comments = None)
 
@@ -42,7 +45,7 @@ if __name__ == "__main__":
 	# Usage cosine_similarity_multi30k.py --src en --target es
 	parser = argparse.ArgumentParser(
 	        prog = "MULTI30K TRANSLATION COSINE SIMILARITY CALCULATOR",
-	        description = "This script calculates the cosine similarities of image descriptions between emeddings the original Multi30k datasets and its translations into various languages"
+	        description = "This script calculates the cosine similarities of image descriptions between emeddings the original Multi30k datasets and its translations into various languages. Also writes embeddings to files."
 	)
 	parser.add_argument('-s','--src', choices=['en','fr','de','cs'], default='en', help="the source language for cosine similarity calculation")
 	parser.add_argument('-t','--target', choices=['es','ay','gn','qu','zh_hans','zh_hant','ar_arab','ar_latn','uk'], default='es', help="the source language for cosine similarity calculation")
@@ -79,6 +82,12 @@ if __name__ == "__main__":
 
 		FILE = f"multi30k-dataset-{args.src}-{args.target}/similarity_{dataset}_{args.src}_{args.target}.txt"
 		write_cosine_similarity(FILE, src_embeddings, tgt_embeddings)
+
+		SRC_F = f"multi30k-datasets-{args.src}-{args.target}/embeddings_{dataset}_{args.src}.txt"
+		write_embeddings(SRC_F, src_embeddings)
+
+		TGT_F = f"multi30k-datasets-{args.src}-{args.target}/embeddings_{dataset}_{args.target}.txt"
+		write_embeddings(TGT_F, tgt_embeddings)
 
 	if args.target == 'uk':
 		# for Ukrainian data we compare our results to Saichyshyna et al.
