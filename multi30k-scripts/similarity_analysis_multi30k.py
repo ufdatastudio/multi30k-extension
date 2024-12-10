@@ -8,8 +8,8 @@ import numpy as np
 from torch import from_numpy
 import torch.nn.functional as F
 
-def loadtxt(filename):
-	return np.loadtxt(filename, dtype = 'd', delimiter = "|", comments = None)
+def loadtxt(filename, dtype = 'd', delimiter = '|', comments = None):
+	return np.loadtxt(filename, dtype = dtype, delimiter = delimiter, comments = comments)
 
 def loadtensor(filename):
 	np_array = loadtxt(filename)
@@ -108,12 +108,12 @@ def get_mean_kl_div(embedder, src_lang, tgt_lang, datasets):
 		if src_lang == 'cs' and dataset in ['test_2017_flickr', 'test_2017_mscoco']:
 			continue
 
-		SRC_FILE = f"../multi30k-dataset-{args.src}/{dataset}.{args.src}"
-		src_txt = loadtxt(SRC_FILE)
+		SRC_FILE = f"../multi30k-dataset-{src_lang}/{dataset}.{src_lang}"
+		src_txt = loadtxt(SRC_FILE, dtype = 'str')
 		src_embeddings = get_embeddings(embedder, src_txt)
 
-		TGT_FILE = f"multi30k-dataset-{args.src}-{args.target}/{dataset}.{args.target}"
-		tgt_txt = loadtxt(TGT_FILE)
+		TGT_FILE = f"multi30k-dataset-{src_lang}-{tgt_lang}/{dataset}.{tgt_lang}"
+		tgt_txt = loadtxt(TGT_FILE, dtype = 'str')
 		tgt_embeddings = get_embeddings(embedder, tgt_txt)
 
 		kl_div = sym_kl_div(src_embeddings, tgt_embeddings)

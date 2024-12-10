@@ -1,0 +1,6 @@
+test_2016_flickr tensor(nan)
+test_2017_flickr tensor(nan)
+test_2017_mscoco tensor(nan)
+test_2018_flickr tensor(nan)
+train tensor(nan)
+val tensor(nan)
