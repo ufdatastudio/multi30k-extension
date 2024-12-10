@@ -6,7 +6,7 @@ import copy
 from cosine_similarity_multi30k import load_embedding_model, get_embeddings
 import numpy as np
 from torch import from_numpy
-import torch.nn.functional as F
+import torch.nn as nn
 
 def loadtxt(filename, dtype = 'd', delimiter = '|', comments = None):
 	return np.loadtxt(filename, dtype = dtype, delimiter = delimiter, comments = comments)
@@ -92,13 +92,14 @@ def cosine_similarity_histograms(src_langs, tgt_langs, datasets, bins = 10):
 			get_cosine_similarity_histogram(src_lang, tgt_lang, datasets, bins)
 
 def sym_kl_div(src, tgt):
-	src_tensor = from_numpy(src)
-	tgt_tensor = from_numpy(tgt)
+	bert1 = from_numpy(src)
+	bert2 = from_numpy(tgt)
+	softmax = nn.Softmax(dim = 1)
 
-	left = F.kl_div(src_tensor, tgt_tensor, reduction = 'batchmean')
-	right = F.kl_div(tgt_tensor, src_tensor, reduction = 'batchmean')
+	sim = np.mean([ nn.functional.kl_div( softmax(bert1).log(), softmax(bert2), reduction = 'batchmean' ),
+			nn.functional.kl_div( softmax(bert2).log(), softmax(bert1), reduction = 'batchmean' )])
 
-	return left + right
+	return sim
 
 def get_mean_kl_div(embedder, src_lang, tgt_lang, datasets):
 

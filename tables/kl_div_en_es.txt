@@ -1,6 +1,6 @@
-test_2016_flickr tensor(nan)
-test_2017_flickr tensor(nan)
-test_2017_mscoco tensor(nan)
-test_2018_flickr tensor(nan)
-train tensor(nan)
-val tensor(nan)
+test_2016_flickr 0.00013935156
+test_2017_flickr 0.00015012687
+test_2017_mscoco 0.00015359774
+test_2018_flickr 0.00013973357
+train 0.00014699942
+val 0.00014210163
