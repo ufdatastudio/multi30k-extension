@@ -3,7 +3,7 @@
 import argparse
 import copy
 # import matplotlib.pyplot as plt # TODO: Uncomment this and set up matplotlib to make tables and histograms automatically.
-from cosine_similarity_multi30k import load_embedding_model, get_embeddings
+from cosine_similarity_multi30k import load_embedding_model, get_embeddings, get_embeddings_from_remote_uk
 import numpy as np
 from torch import from_numpy
 import torch.nn as nn
@@ -101,7 +101,65 @@ def sym_kl_div(src, tgt):
 
 	return sim
 
+def get_mean_kl_div_uks(embedder, src_lang, datasets):
+
+	divs = []
+
+	for dataset in datasets:
+		if dataset == 'val':
+			continue
+
+		if src_lang == 'cs' and dataset in ['test_2017_flickr', 'test_2017_mscoco']:
+			continue
+
+		SRC_FILE = f"../multi30k-dataset-{src_lang}/{dataset}.{src_lang}" if src_lang != 'uk' else f"multi30k-dataset-en-uk/{dataset}.uk"
+		src_txt = loadtxt(SRC_FILE, dtype = 'str')
+		src_embeddings = get_embeddings(embedder, src_txt)
+
+		sai_embeddings = get_embeddings_from_remote_uk(dataset, embedder, "turuta/Multi30k-uk")
+
+		kl_div = sym_kl_div(src_embeddings, sai_embeddings)
+		divs.append(kl_div)
+
+	OUT_FILE = f"tables/kl_div_{src_lang}_sai.txt"
+	np.savetxt(OUT_FILE, list(zip(datasets, divs)), fmt='%s')
+
+	return np.array(divs).mean()
+
+def get_mean_kl_div_ars(embedder, src_lang, datasets):
+
+	divs = []
+	for dataset in datasets:
+		if dataset != 'val' and dataset != 'train':
+			continue
+
+		if src_lang == 'cs' and dataset in ['test_2017_flickr', 'test_2017_mscoco']:
+			continue
+
+		SRC_FILE = f"../multi30k-dataset-{src_lang}/{dataset}.{src_lang}" if src_lang != 'ar_arab' else f"multi30k-dataset-en-ar_arab/{dataset}.ar_arab"
+		src_txt = loadtxt(SRC_FILE, dtype = 'str')
+		src_embeddings = get_embeddings(embedder, src_txt)
+
+		AR_FILE = f"../multi30k-dataset-ar/{dataset}/Arabic.txt"
+		enar_array = np.loadtxt(AR_FILE, dtype = 'U512', delimiter = '|', comments = None)
+
+		enar_embeddings = get_embeddings(embedder, enar_array)
+
+		kl_div = sym_kl_div(src_embeddings, enar_embeddings)
+		divs.append(kl_div)
+
+	OUT_FILE = f"tables/kl_div_{src_lang}_enar.txt"
+	np.savetxt(OUT_FILE, list(zip(datasets, divs)), fmt='%s')
+
+	return np.array(divs).mean()
+
+
 def get_mean_kl_div(embedder, src_lang, tgt_lang, datasets):
+
+	if tgt_lang == 'sai':
+		return get_mean_kl_div_uks(embedder, src_lang, datasets)
+	elif tgt_lang == 'enar':
+		return get_mean_kl_div_ars(embedder, src_lang, datasets)
 
 	divs = []
 

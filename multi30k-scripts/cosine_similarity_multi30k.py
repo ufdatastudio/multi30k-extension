@@ -41,6 +41,18 @@ def loadtxt(filename):
 	return np.loadtxt(filename, dtype = 'U512', delimiter = '|', comments = None)
 
 
+def get_embeddings_from_remote_uk(dataset, embedder, page_name):
+		# a dict matching the split names from multi30k files to splits defined in Saichyshyna et al.
+		# The latter does not use val, so it doesn't appear here
+		corr_dict = {'test_2016_flickr':'flickr_2016', 'test_2017_flickr':'flickr_2017', 'test_2018_flickr':'flickr_2018', 'test_2017_mscoco':'mscoco_2017', 'train':'multi30k'}
+
+		# get array from ds. Use the corr_dict to match the corect split name with the dataset at hand.
+		turuta_list = load_dataset(page_name, corr_dict[dataset])['train']['uk']
+		turuta_array = np.array(turuta_list)
+
+		turuta_embeddings = get_embeddings(embedder, turuta_array)
+		return turuta_embeddings
+
 if __name__ == "__main__":
 	# Usage cosine_similarity_multi30k.py --src en --target es
 	parser = argparse.ArgumentParser(
@@ -97,15 +109,7 @@ if __name__ == "__main__":
 			if dataset == 'val':
 				continue
 
-			# a dict matching the split names from multi30k files to splits defined in Saichyshyna et al.
-			# The latter does not use val, so it doesn't appear here
-			corr_dict = {'test_2016_flickr':'flickr_2016', 'test_2017_flickr':'flickr_2017', 'test_2018_flickr':'flickr_2018', 'test_2017_mscoco':'mscoco_2017', 'train':'multi30k'}
-
-			# get array from ds. Use the corr_dict to match the corect split name with the dataset at hand.
-			turuta_list = load_dataset("turuta/Multi30k-uk", corr_dict[dataset])['train']['uk']
-			turuta_array = np.array(turuta_list)
-
-			turuta_embeddings = get_embeddings(embedder, turuta_array)
+			turuta_embeddings = get_embeddings_from_remote_uk(dataset, embedder, "turuta/Multi30k-uk")
 
 			FILE = f"multi30k-dataset-{args.src}-{args.target}/similarity_{dataset}_{args.src}_sai.txt"
 			write_cosine_similarity(FILE, src_embeddings_dict[dataset], turuta_embeddings)
